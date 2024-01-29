@@ -1,0 +1,14 @@
+.FilterStyle {
+    border: 1px solid #6425FE;
+    background-color: #EFE9FF;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 10px;
+    display: flex;
+    gap: 6px;
+}
+
+.selectedStyle {
+    background-color: #6425FE;
+    color: #EFE9FF;
+}

@@ -1,0 +1,29 @@
+.wrapperStyle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.conatinerStyle {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.currentWrapper {
+    height: 100%;
+}
+
+.filterWrapper {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+@media(max-width: 767px) {
+    .currentWrapper {
+        height: 51vh;
+    }
+}

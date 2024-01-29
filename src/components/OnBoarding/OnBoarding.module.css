@@ -1,0 +1,97 @@
+.conatinerStyle {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.fontStyle {
+    width: 10px;
+}
+
+.bottomContainer {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottomContainer [data-icon='forward'] {
+    font-size: 40px;
+    color: #6425FE;
+    padding: 10px;
+}
+
+.screenStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.screenStyle img {
+    mix-blend-mode: darken;
+    height: 200px;
+}
+
+.centerStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.centerStyle h1 {
+    color: #6425FE;
+}
+
+.centerStyle h3 {
+    color: blue;
+}
+
+.backgroundStyle {
+    position: absolute;
+    border-radius: 484px;
+    background: #D9D0E9;
+    width: 484px;
+    height: 484px;
+    bottom: 0;
+    transform: translate(-55%, 10%);
+}
+
+.container1Style {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftStyle {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid #D9D0E9;
+}
+
+.rightStyle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.getStatrtedButton {
+    border: 1px solid #D9D0E9;
+    background-color: #6425FE;
+    border-radius: 40px;
+    padding: 15px 45px;
+    cursor: pointer;
+    color: #D9D0E9;
+}

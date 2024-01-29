@@ -1,0 +1,149 @@
+.sideBarWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.childContainer {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 320px);
+}
+
+.childExpand {
+    width: calc(100% - 100px);
+}
+
+.childContent {
+    display: flex;
+    padding: 20px;
+    overflow: auto;
+}
+
+.sidebar {
+    height: 100%;
+    background-color: #FFF;
+    width: 320px;
+    border-bottom-right-radius: 20px;
+    position: relative;
+    box-shadow: 0px 10px 70px 0px rgba(100, 37, 254, 0.04);
+}
+
+.sidebarContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 24px 15px;
+}
+
+.arrowContainer {
+    position: absolute;
+    color: #6425FE;
+    font-size: 30px;
+    right: 0;
+    top: 70px;
+    margin-right: -14px;
+    background-color: #f2f2f2;
+    border-radius: 50%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.userPannelCss {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    color: #7E7D82;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    font-style: normal;
+    text-align: left;
+}
+
+.pannelContentCss {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.eachPannelCss {
+    display: flex;
+    width: 100%;
+    padding: 16px 0px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    color: #84828A;
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.eachPannelCss img {
+    padding-left: 16px;
+}
+
+.eachPannelCss p {
+    margin: 0;
+}
+
+.eachPannelCss:hover {
+    background-color: #EFE9FF;
+    color: #6425FE;
+}
+
+.eachPannelCss.eachPannelCssActive {
+    background-color: #EFE9FF;
+    color: #6425FE;
+}
+
+.companyTitleCss {
+    color: #2C2C2C;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+    font-style: normal;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-align: left;
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        width: 0px;
+        display: none;
+    }
+
+    .childContainer {
+        width: unset;
+        padding: 0px;
+    }
+}
+
+.sidebarFixedCss {
+    width: 100px;
+}
+
+.logoutCss {
+    display: flex;
+    gap: 10px;
+    color: #84828A;
+    font-size: 16px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: normal;
+    position: absolute;
+    bottom: 0;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.logoutCss p {
+    margin: 0;
+}

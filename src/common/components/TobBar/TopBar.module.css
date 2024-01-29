@@ -1,0 +1,48 @@
+.containerStyle {
+    padding: 24px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchContainer {
+    background-color: #F7F6F4;
+    border-radius: 30px;
+    width: 250px;
+    position: relative;
+    height: 40px;
+}
+
+.searchContainer input {
+    outline: none;
+    border: none;
+    padding: 0px 0px 0px 40px;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+.searchIconStyle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    margin-left: 16px;
+}
+
+.profileContainer {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.profilePicStyle {
+    border-radius: 50%;
+}
+
+.profilePicStyle img {
+    width: 30px;
+    border-radius: inherit;
+}

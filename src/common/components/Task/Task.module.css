@@ -1,0 +1,31 @@
+.containerStyle {
+    border-top: 1px solid rgba(0, 0, 0, 0.10);
+    padding: 15px 0px;
+    color: #65676D;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.containerStyle.selectedStyle {
+    background-color: rgba(173, 216, 230, 0.2);
+}
+
+.leftStyle {
+    display: flex;
+    gap: 10px
+}
+
+[data-type='completed'] {
+    color: rgb(105, 189, 169);
+}
+
+[data-type='in-progress'] {
+    color: rgb(254, 238, 163);
+}
+
+[data-type='pending'] {
+    color: rgb(209, 60, 75);
+}

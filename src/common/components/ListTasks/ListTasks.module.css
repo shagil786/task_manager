@@ -1,0 +1,8 @@
+.containerStyle {
+    font-size: 24px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+}

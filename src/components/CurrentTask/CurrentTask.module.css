@@ -1,0 +1,78 @@
+.containerStyle {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.headerStyle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rightStyle {
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.leftStyle {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.leftStyle input {
+    width: auto;
+}
+
+[data-type='completed'] {
+    color: rgb(105, 189, 169);
+}
+
+[data-type='in-progress'] {
+    color: rgb(254, 238, 163);
+}
+
+[data-type='pending'] {
+    color: rgb(209, 60, 75);
+}
+
+.contentStyle {
+    height: 100%;
+}
+
+.descriptionStyle {
+    height: calc(100% - 60px);
+}
+
+.dataPickerStyle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottomConatainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.priorityPickerStyle {
+    width: fit-content;
+}
+
+.descriptionStyle textarea {
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow: auto;
+}
+
+.editStyle {
+    font-size: 14px;
+    align-self: center;
+    cursor: pointer;
+}
+
+.startDate input,
+.endDate input {
+    width: 100%;
+}
