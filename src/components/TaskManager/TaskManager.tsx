@@ -245,9 +245,9 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
               taskNameError ||
               taskDescription?.length == 0 ||
               taskDescriptionError ||
-              startDate?.length ||
+              startDate?.length == 0 ||
               startDateError ||
-              endDate?.length ||
+              endDate?.length == 0 ||
               endDateError
                 ? true
                 : false

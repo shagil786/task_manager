@@ -52,16 +52,18 @@ const Login: React.FC<LoginProps> = () => {
   const handleSubmit = () => {
     login({ email: email, password: password })
       .then(async (res) => {
-        let [token, username, presignedUrl] = [
+        let [token, username, presignedUrl, userId] = [
           res?.token,
           res?.user,
           res?.presignedUrl,
+          res?.userId,
         ];
         await setToken({ token, username });
         let obj = {
           token: token,
           email: username,
           presignedUrl: presignedUrl,
+          userId: userId,
         };
         setUserDetailsInfo(obj);
         navigate("/app/dashboard");

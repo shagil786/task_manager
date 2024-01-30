@@ -84,16 +84,18 @@ const Signup: React.FC<SignupProps> = () => {
 
     signup(formData)
       .then(async (res) => {
-        let [token, username, presignedUrl] = [
+        let [token, username, presignedUrl, userId] = [
           res?.token,
           res?.user,
           res?.presignedUrl,
+          res?.userId,
         ];
         await setToken({ token, username });
         let obj = {
           token: token,
           email: username,
           profileImage: presignedUrl,
+          userId,
         };
         setUserDetailsInfo(obj);
         navigate("/app/dashboard");

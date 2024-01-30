@@ -14,6 +14,7 @@ import CurrentTask from "../components/CurrentTask/CurrentTask";
 import GlobalFilter from "../common/components/GlobalFilter/GlobalFilter";
 import { getTask, getTaskCount } from "../utils/api";
 import { DeveloperDataContext } from "../utils/appContext";
+import { getUserDetailsInfo } from "../utils/userDetailsInfo";
 
 interface HomeProps {}
 

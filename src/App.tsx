@@ -8,8 +8,6 @@ import {
 } from "react-router-dom";
 import OnBoaring from "./pages/OnBoaring";
 import Login from "./pages/Login";
-import PrivateRoute from "./common/components/PrivateRoute/PrivateRoute";
-import Home from "./pages/Home";
 import { DeveloperDataContext } from "./utils/appContext";
 import CommonLoader from "./common/components/CommonLoader/CommonLoader";
 import { isLoggedIn } from "./utils/cookies-utils";
@@ -20,6 +18,8 @@ import {
 import { socketData } from "./common/webSocket/SocketData";
 import Signup from "./pages/Signup";
 import SideBar from "./common/components/SideBar/SideBar";
+
+const Home = React.lazy(() => import("./pages/Home"));
 
 function App() {
   const [appData, setAppData] = useState<any>();
