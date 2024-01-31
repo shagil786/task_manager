@@ -3,7 +3,7 @@ import "./App.css";
 import {
   Navigate,
   Route,
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
 } from "react-router-dom";
 import OnBoaring from "./pages/OnBoaring";
