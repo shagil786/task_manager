@@ -94,7 +94,7 @@ const Signup: React.FC<SignupProps> = () => {
         let obj = {
           token: token,
           email: username,
-          profileImage: presignedUrl,
+          presignedUrl: presignedUrl,
           userId,
         };
         setUserDetailsInfo(obj);
