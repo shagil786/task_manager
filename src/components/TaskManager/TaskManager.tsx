@@ -127,8 +127,8 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
       description: taskDescription,
       startDate: startDate,
       endDate: endDate,
-      priority: prioritySelected,
-      status: statusSelected,
+      priority: prioritySelected?.length == 0 ? "low" : prioritySelected,
+      status: statusSelected?.length == 0 ? "pending" : statusSelected,
     };
 
     addTask(body)
