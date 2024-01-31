@@ -44,8 +44,8 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
   const [startDateError, setStartDateError] = useState("");
   const [endDate, setEndDate] = useState("");
   const [endDateError, setEndDateError] = useState("");
-  const [prioritySelected, setPrioritySelected] = useState("");
-  const [statusSelected, setStatusSelected] = useState("");
+  const [prioritySelected, setPrioritySelected] = useState("low");
+  const [statusSelected, setStatusSelected] = useState("pending");
   const { appData, setAppData } = useContext(DeveloperDataContext);
 
   const getPriority = () => {
