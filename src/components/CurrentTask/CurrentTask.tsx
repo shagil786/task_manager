@@ -187,7 +187,7 @@ const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
         <FontAwesomeIcon
           className={rightStyle}
           icon={faTrash}
-          onClick={() => deleteTask(props?.data?.id)}
+          onClick={() => deleteTask(props?.data?._id)}
         />
       </div>
       <div className={contentStyle}>
