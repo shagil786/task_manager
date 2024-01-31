@@ -118,7 +118,8 @@ const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
       startDate: startDateFormatted,
       endDate: endDateFormatted,
     };
-    await editTaskDetails(props?.data?.id, body)
+    console.log(props?.data);
+    await editTaskDetails(props?.data?._id, body)
       .then((res) => {
         Toast("success", res?.message, "3000", "top-right");
         appData

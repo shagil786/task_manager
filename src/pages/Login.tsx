@@ -131,7 +131,7 @@ const Login: React.FC<LoginProps> = () => {
             <hr />
           </div>
           <p className={signUpLinkStyle}>
-            Don't you have an account? <a href="/signup">Sign up</a>
+            Don't you have an account? <a href="#/signup">Sign up</a>
           </p>
         </div>
       </div>

@@ -188,7 +188,7 @@ const Signup: React.FC<SignupProps> = () => {
             <hr />
           </div>
           <p className={signUpLinkStyle}>
-            Already Registered? <a href="/login">Sign In</a>
+            Already Registered? <a href="#/login">Sign In</a>
           </p>
         </div>
       </div>
