@@ -134,9 +134,7 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
     addTask(body)
       .then((res) => {
         Toast("success", res?.message, "3000", "top-right");
-        appData
-          ? setAppData(...appData, { updateTask: true })
-          : setAppData({ updateTask: true });
+        setAppData({ updateTask: true });
       })
       .catch((err) => {
         Toast("error", err?.message, "3000", "top-right");
