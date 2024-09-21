@@ -10,8 +10,8 @@ import { socketData } from "../common/webSocket/SocketData";
 import lodashGet from "lodash/get";
 import { networkErrorMessages } from "../constants/messages";
 
-const primaryBaseUrl = process.env.REACT_APP_API_URL;
-const secondaryBaseUrl = process.env.REACT_APP_API_UR2;
+const primaryBaseUrl = process.env.REACT_APP_API_UR2;
+const secondaryBaseUrl = process.env.REACT_APP_API_URL;
 
 let isNetworkErrorMsgShow = false;
 let isPrimaryBaseUrlFailed = false;
