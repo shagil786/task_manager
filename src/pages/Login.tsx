@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import styles from "./index.module.css";
 import { login } from "../utils/api";
 import { setToken } from "../utils/auth-utils";
 import { useNavigate } from "react-router-dom";
 import { setUserDetailsInfo } from "../utils/userDetailsInfo";
 import Toast from "../common/components/Toast/Toast";
-import { ToastContainer } from "react-toastify";
 
-interface LoginProps {}
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
 
-const Login: React.FC<LoginProps> = () => {
+const Login: React.FC = () => {
   const {
     conatinerStyle,
     leftStyle,
@@ -26,53 +29,32 @@ const Login: React.FC<LoginProps> = () => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    mode: "onChange",
+  });
 
-  const handleEmail = (e: any) => {
-    setEmailError(
-      !e?.target?.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e?.target?.value)
-        ? "Invalid email"
-        : "",
-    );
-    setEmail(e?.target?.value);
-  };
-
-  const handlePassword = (e: any) => {
-    setPasswordError(
-      !e?.target?.value || e?.target?.value.length < 8
-        ? "Password must be at least 8 characters"
-        : "",
-    );
-    setPassword(e?.target?.value);
-  };
-
-  const handleSubmit = () => {
-    login({ email: email, password: password })
-      .then(async (res) => {
-        let [token, username, presignedUrl, userId] = [
-          res?.token,
-          res?.user,
-          res?.presignedUrl,
-          res?.userId,
-        ];
-        await setToken({ token, username });
-        let obj = {
-          token: token,
-          email: username,
-          presignedUrl: presignedUrl,
-          userId: userId,
-        };
-        setUserDetailsInfo(obj);
-        navigate("/app/dashboard");
-        window.location.reload();
-      })
-      .catch((err) => {
-        Toast("error", "Email or Password does not match", "3000", "top-right");
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      const res = await login({ email: data.email, password: data.password });
+      const { token, user, presignedUrl, userId } = res;
+      await setToken({ token, username: user });
+      setUserDetailsInfo({
+        token,
+        email: user,
+        presignedUrl,
+        userId,
       });
+      navigate("/app/dashboard");
+      window.location.reload();
+    } catch (err) {
+      Toast("error", "Email or Password does not match", "3000", "top-right");
+    }
   };
+
   return (
     <div className={conatinerStyle}>
       <div className={leftStyle}>
@@ -82,53 +64,53 @@ const Login: React.FC<LoginProps> = () => {
             Today is a new day. It's your day. You shape it. Sign in to start
             managing your projects.
           </p>
-          <div className={loginForm}>
+          <form onSubmit={handleSubmit(onSubmit)} className={loginForm}>
             <div className={emailStyle}>
               <label htmlFor="email">Email</label>
               <input
                 id="email"
-                name="email"
                 type="email"
                 placeholder="Example@email.com"
-                onChange={handleEmail}
-                value={email}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email",
+                  },
+                })}
               />
-              {emailError && <div className={errorStyle}>{emailError}</div>}
+              {errors.email && (
+                <div className={errorStyle}>{errors.email.message}</div>
+              )}
             </div>
+
             <div className={passwordStyle}>
               <label htmlFor="password">Password</label>
               <input
                 id="password"
-                name="password"
                 type="password"
                 placeholder="at least 8 characters"
-                onChange={handlePassword}
-                value={password}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
               />
-              {passwordError && (
-                <div className={errorStyle}>{passwordError}</div>
+              {errors.password && (
+                <div className={errorStyle}>{errors.password.message}</div>
               )}
             </div>
-            <a href="">Forgot Password</a>
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={
-                emailError ||
-                passwordError ||
-                email?.length == 0 ||
-                password?.length == 0
-                  ? true
-                  : false
-              }
-            >
+
+            <a href="/#/forgot-password">Forgot Password</a>
+            <button type="submit" disabled={Object.keys(errors).length > 0}>
               Sign In
             </button>
-          </div>
+          </form>
+
           <div className={borderLineStyle}>
-            <hr />
-            or
-            <hr />
+            <hr /> or <hr />
           </div>
           <p className={signUpLinkStyle}>
             Don't you have an account? <a href="#/signup">Sign up</a>

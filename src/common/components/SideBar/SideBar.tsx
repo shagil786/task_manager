@@ -76,7 +76,7 @@ const SideBar: React.FC<SideBarProps> = (props) => {
       />
       <div className={sidebarContainer}>
         <div className={companyTitleCss}>
-          <p>{sideBarFixed ? "1% Club" : "1%"}</p>
+          <p>{sideBarFixed ? "Task Manager" : "TM"}</p>
         </div>
         <div className={userPannelCss}>
           <p>User Panel</p>

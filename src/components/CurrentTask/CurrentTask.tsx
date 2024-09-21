@@ -27,6 +27,7 @@ interface CurrentTaskProps {
   data: any;
   handleEdited?: any;
   iconMap?: any;
+  setSelectedTask: any;
 }
 
 const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
@@ -52,16 +53,16 @@ const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
   const [priorityArray, setPriorityArray] = useState<any>([]);
   const [taskName, setTaskName] = useState(props?.data?.name);
   const [taskDescription, setTaskDescription] = useState(
-    props?.data?.description,
+    props?.data?.description
   );
   const [startDateFormatted, setStartDateFormatted] = useState(
-    props?.data?.startDateFormatted,
+    props?.data?.startDateFormatted
   );
   const [endDateFormatted, setEndDateFormatted] = useState(
-    props?.data?.endDateFormatted,
+    props?.data?.endDateFormatted
   );
   const [prioritySelected, setPrioritySelected] = useState(
-    props?.data?.priority,
+    props?.data?.priority
   );
   const [statusSelected, setStatusSelected] = useState(props?.data?.status);
 
@@ -101,6 +102,8 @@ const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
       .then((res) => {
         Toast("success", res?.message, "3000", "top-right");
         setAppData({ updateTask: true });
+        setEditedValues(false);
+        props?.setSelectedTask([]);
       })
       .catch((err) => {
         Toast("error", err?.message, "3000", "top-right");
@@ -120,6 +123,7 @@ const CurrentTask: React.FC<CurrentTaskProps> = (props) => {
       .then((res) => {
         Toast("success", res?.message, "3000", "top-right");
         setAppData({ updateTask: true });
+        setEditedValues(false);
       })
       .catch((err) => {
         Toast("error", err?.message, "3000", "top-right");

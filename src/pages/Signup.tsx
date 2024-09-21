@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import { signup } from "../utils/api";
 import { setToken } from "../utils/auth-utils";
-import { useNavigate } from "react-router-dom";
 import { setUserDetailsInfo } from "../utils/userDetailsInfo";
 import sampleImg from "../images/SideBar/60111.webp";
 import Toast from "../common/components/Toast/Toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
 
-interface SignupProps {}
+interface SignupFormInputs {
+  username: string;
+  email: string;
+  password: string;
+}
 
-const Signup: React.FC<SignupProps> = () => {
+const Signup: React.FC = () => {
   const {
     conatiner1Style,
     leftStyle,
@@ -24,40 +31,22 @@ const Signup: React.FC<SignupProps> = () => {
     usernameStyle,
     errorStyle,
     hiddenUpload,
+    editButton,
   } = styles;
 
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
   const inputRef = useRef<any>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>();
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [imageUrl, setImageUrl] = useState<any>(null);
 
-  const handleEmail = (e: any) => {
-    setEmailError(
-      !e?.target?.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e?.target?.value)
-        ? "Invalid email"
-        : "",
-    );
-    setEmail(e?.target?.value);
-  };
-
-  const handlePassword = (e: any) => {
-    setPasswordError(
-      !e?.target?.value || e?.target?.value.length < 8
-        ? "Password must be at least 8 characters"
-        : "",
-    );
-    setPassword(e?.target?.value);
-  };
-
-  const handleName = (e: any) => {
-    setUsername(e?.target?.value);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<SignupFormInputs>({
+    mode: "onChange", // Enables live validation as user types
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,42 +57,29 @@ const Signup: React.FC<SignupProps> = () => {
     reader.onloadend = () => {
       setImageUrl(reader.result);
     };
-    reader.readAsDataURL(file!);
+    reader.readAsDataURL(file);
   };
 
-  const handleSubmit = () => {
+  const onSubmit = async (data: SignupFormInputs) => {
     const formData = new FormData();
 
     if (selectedFile) {
-      formData?.append("profileImage", selectedFile);
+      formData.append("profileImage", selectedFile);
     }
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
 
-    formData.append("username", username);
-    formData.append("email", email);
-    formData.append("password", password);
-
-    signup(formData)
-      .then(async (res) => {
-        let [token, username, presignedUrl, userId] = [
-          res?.token,
-          res?.user,
-          res?.presignedUrl,
-          res?.userId,
-        ];
-        await setToken({ token, username });
-        let obj = {
-          token: token,
-          email: username,
-          presignedUrl: presignedUrl,
-          userId,
-        };
-        setUserDetailsInfo(obj);
-        navigate("/app/dashboard");
-        window.location.reload();
-      })
-      .catch((err) => {
-        Toast("error", "Email or Password does not match", "3000", "top-right");
-      });
+    try {
+      const res = await signup(formData);
+      const { token, user, presignedUrl, userId } = res;
+      await setToken({ token, username: user });
+      setUserDetailsInfo({ token, email: user, presignedUrl, userId });
+      navigate("/app/dashboard");
+      window.location.reload();
+    } catch (err) {
+      Toast("error", "Email or Password does not match", "3000", "top-right");
+    }
   };
 
   return (
@@ -114,11 +90,11 @@ const Signup: React.FC<SignupProps> = () => {
             <img
               src={imageUrl ? imageUrl : sampleImg}
               alt="sampleImg"
-              onClick={() => {
-                inputRef?.current?.click();
-                setSelectedFile(null);
-              }}
+              onClick={() => inputRef.current?.click()}
             />
+            {imageUrl ? null : (
+              <FontAwesomeIcon className={editButton} icon={faPenSquare} />
+            )}
             <input
               type="file"
               accept="image/*"
@@ -127,61 +103,73 @@ const Signup: React.FC<SignupProps> = () => {
               onChange={handleFileChange}
             />
           </div>
-          <div className={loginForm}>
+
+          <form onSubmit={handleSubmit(onSubmit)} className={loginForm}>
             <div className={usernameStyle}>
-              <label htmlFor="email">Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 id="name"
-                name="name"
-                type="text"
                 placeholder="Example"
-                onChange={handleName}
-                value={username}
+                {...register("username", {
+                  required: "Name is required",
+                })}
               />
+              {errors.username && (
+                <div className={errorStyle}>{errors.username.message}</div>
+              )}
             </div>
+
             <div className={emailStyle}>
               <label htmlFor="email">Email</label>
               <input
                 id="email"
-                name="email"
                 type="email"
                 placeholder="Example@email.com"
-                onChange={handleEmail}
-                value={email}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email",
+                  },
+                })}
               />
-              {emailError && <div className={errorStyle}>{emailError}</div>}
+              {errors.email && (
+                <div className={errorStyle}>{errors.email.message}</div>
+              )}
             </div>
+
             <div className={passwordStyle}>
               <label htmlFor="password">Password</label>
               <input
                 id="password"
-                name="password"
                 type="password"
                 placeholder="at least 8 characters"
-                onChange={handlePassword}
-                value={password}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
               />
-              {passwordError && (
-                <div className={errorStyle}>{passwordError}</div>
+              {errors.password && (
+                <div className={errorStyle}>{errors.password.message}</div>
               )}
             </div>
-            <a></a>
+
             <button
               type="submit"
-              onClick={handleSubmit}
               disabled={
-                emailError ||
-                passwordError ||
-                email?.length == 0 ||
-                password?.length == 0 ||
-                username?.length == 0
-                  ? true
-                  : false
+                Object.keys(errors).length > 0 ||
+                !watch("username") ||
+                !watch("email") ||
+                !watch("password")
               }
             >
               Sign Up
             </button>
-          </div>
+          </form>
+
           <div className={borderLineStyle}>
             <hr />
             or

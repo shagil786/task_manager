@@ -91,28 +91,28 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
   const handleTaskName = (e: any) => {
     setTaskName(e?.target?.value);
     setTaskNameError(
-      e?.target?.value?.length == 0 ? "Task name is required" : "",
+      e?.target?.value?.length == 0 ? "Task name is required" : ""
     );
   };
 
   const handleTaskDescription = (e: any) => {
     setTaskDescription(e?.target?.value);
     setTaskDescriptionError(
-      e?.target?.value?.length == 0 ? "Task Description is required" : "",
+      e?.target?.value?.length == 0 ? "Task Description is required" : ""
     );
   };
 
   const handleStartDate = (e: any) => {
     setStartDate(e?.target?.value);
     setStartDateError(
-      e?.target?.value?.length == 0 ? "Start Date is Required" : "",
+      e?.target?.value?.length == 0 ? "Start Date is Required" : ""
     );
   };
 
   const handleEndDate = (e: any) => {
     setEndDate(e?.target?.value);
     setEndDateError(
-      e?.target?.value?.length == 0 ? "End Date is Required" : "",
+      e?.target?.value?.length == 0 ? "End Date is Required" : ""
     );
   };
 
@@ -135,6 +135,7 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
       .then((res) => {
         Toast("success", res?.message, "3000", "top-right");
         setAppData({ updateTask: true });
+        setShow(false);
       })
       .catch((err) => {
         Toast("error", err?.message, "3000", "top-right");
@@ -146,17 +147,23 @@ const TaskManager: React.FC<TaskManagerProps> = (props) => {
       <div className={conatinerStyle}>
         <div className={headerStyle}>
           <p>My Tasks</p>
-          <FontAwesomeIcon icon={faAdd} onClick={handleAddTask} />
+          <FontAwesomeIcon
+            icon={faAdd}
+            onClick={handleAddTask}
+            title="Add Task"
+          />
         </div>
         <div className={contentStyle}>
-          <Each
-            handleClick={props?.handleTaskSelected}
-            data={props?.data}
-            selectedFolder={props?.selectedTask}
-            iconMap={props?.iconMap}
-          >
-            {Task}
-          </Each>
+          {props?.data?.length > 0 ? (
+            <Each
+              handleClick={props?.handleTaskSelected}
+              data={props?.data}
+              selectedFolder={props?.selectedTask}
+              iconMap={props?.iconMap}
+            >
+              {Task}
+            </Each>
+          ) : null}
         </div>
       </div>
       <Modal isOpen={show} setIsOpen={setShow} customStyle={customStyle}>

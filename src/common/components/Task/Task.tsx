@@ -7,11 +7,12 @@ const Task: any = (
   index: number,
   handleClick: any,
   selectedTask: any,
-  icomMap?: any,
+  icomMap?: any
 ) => {
   const { containerStyle, leftStyle, rightStyle, selectedStyle } = styles;
   return (
     <div
+      title={item?.status}
       className={`${containerStyle} ${
         selectedTask?._id === item?._id ? selectedStyle : ""
       }`}

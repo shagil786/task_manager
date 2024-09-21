@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useMemo, useState, useEffect } from "react";
 import "./App.css";
 import {
   Navigate,
@@ -6,7 +6,7 @@ import {
   HashRouter as Router,
   Routes,
 } from "react-router-dom";
-import OnBoaring from "./pages/OnBoaring";
+import OnBoarding from "./pages/OnBoaring";
 import Login from "./pages/Login";
 import { DeveloperDataContext } from "./utils/appContext";
 import CommonLoader from "./common/components/CommonLoader/CommonLoader";
@@ -22,89 +22,88 @@ import SideBar from "./common/components/SideBar/SideBar";
 const Home = React.lazy(() => import("./pages/Home"));
 
 function App() {
-  const [appData, setAppData] = useState<any>();
-  const [isAuth, setIsAuth] = useState(isLoggedIn());
-  const [globalLevelCall, setGlobalCall] = useState<boolean>();
+  const [appData, setAppData] = useState<any>(null);
+  const [globalLevelCall, setGlobalLevelCall] = useState<boolean>(false);
+  const isAuth = isLoggedIn();
 
-  if (isAuth && globalLevelCall && !isAliveWebSocket()) {
-    setGlobalCall(false);
-    let socket = new WebSocketConnection();
-    socket.connect(socketData({ socketInstance: socket }));
-  }
+  // WebSocket connection side-effect
+  useEffect(() => {
+    if (isAuth && globalLevelCall && !isAliveWebSocket()) {
+      setGlobalLevelCall(false);
+      const socket = new WebSocketConnection();
+      socket.connect(socketData({ socketInstance: socket }));
+    }
+  }, [isAuth, globalLevelCall]);
+
+  const contextValue = useMemo(
+    () => ({
+      appData,
+      setAppData,
+    }),
+    [appData, setAppData]
+  );
+
   return (
-    <DeveloperDataContext.Provider
-      value={{
-        appData,
-        setAppData,
-      }}
-    >
+    <DeveloperDataContext.Provider value={contextValue}>
       <Suspense fallback={<CommonLoader />}>
         <SideBar>
           <Router>
             <Routes>
               <Route
                 path="/"
-                Component={(props: any) => {
-                  return !isLoggedIn() ? (
-                    <OnBoaring />
+                element={
+                  !isLoggedIn() ? (
+                    <OnBoarding />
                   ) : (
                     <Navigate
                       to="/app/dashboard"
                       replace={true}
-                      state={{
-                        roload: true,
-                      }}
+                      state={{ reload: true }}
                     />
-                  );
-                }}
+                  )
+                }
               />
               <Route
                 path="/login"
-                Component={(props: any) => {
-                  return !isLoggedIn() ? (
+                element={
+                  !isLoggedIn() ? (
                     <Login />
                   ) : (
                     <Navigate
                       to="/app/dashboard"
                       replace={true}
-                      state={{
-                        roload: true,
-                      }}
+                      state={{ reload: true }}
                     />
-                  );
-                }}
+                  )
+                }
               />
               <Route
                 path="/signup"
-                Component={(props: any) => {
-                  return !isLoggedIn() ? (
+                element={
+                  !isLoggedIn() ? (
                     <Signup />
                   ) : (
                     <Navigate
                       to="/app/dashboard"
                       replace={true}
-                      state={{
-                        roload: true,
-                      }}
+                      state={{ reload: true }}
                     />
-                  );
-                }}
+                  )
+                }
               />
               <Route
                 path="/app/dashboard"
-                Component={(props: any) => {
-                  return isLoggedIn() ? (
+                element={
+                  isLoggedIn() ? (
                     <Home />
                   ) : (
                     <Navigate
                       to="/login"
                       replace={true}
-                      state={{
-                        roload: true,
-                      }}
+                      state={{ reload: true }}
                     />
-                  );
-                }}
+                  )
+                }
               />
             </Routes>
           </Router>

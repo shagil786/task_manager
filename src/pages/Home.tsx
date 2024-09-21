@@ -23,6 +23,7 @@ const Home: React.FC<HomeProps> = () => {
     styles;
   const [selectedTask, setSelectedTask] = useState<any>([]);
   const { appData, setAppData } = useContext(DeveloperDataContext);
+  const [showChart, setShowChart] = useState();
   const [selectedFilter, setSelectedFilter] = useState<any>({
     filter: {
       name: "Priority Tasks",
@@ -42,6 +43,9 @@ const Home: React.FC<HomeProps> = () => {
     getTaskCount()
       .then((res) => {
         setData(res);
+        setShowChart(
+          res?.reduce((acc: number, item: any) => (acc += item?.value), 0)
+        );
       })
       .catch((err) => {
         setData([]);
@@ -61,7 +65,7 @@ const Home: React.FC<HomeProps> = () => {
   useEffect(() => {
     getAllTask(selectedFilter);
     taskCount();
-  }, [selectedFilter, appData?.updateTask]);
+  }, [selectedFilter, appData?.updateTask, selectedTask]);
 
   const filters: any = [
     {
@@ -89,8 +93,6 @@ const Home: React.FC<HomeProps> = () => {
     setSelectedTask(each);
   };
 
-  const handleTaskEdit = (each: any) => {};
-
   const handleFilterSelected = (each: any) => {
     setSelectedFilter(each);
   };
@@ -107,7 +109,7 @@ const Home: React.FC<HomeProps> = () => {
       <div className={conatinerStyle}>
         <Each data={data}>{ListTasks}</Each>
         <CommonCard>
-          <CommonChart data={data} />
+          {showChart ? <CommonChart data={data} /> : <div>No Task Found!</div>}
         </CommonCard>
         <CommonCard>
           <TaskManager
@@ -122,8 +124,9 @@ const Home: React.FC<HomeProps> = () => {
             <CurrentTask
               key={selectedTask?._id}
               data={selectedTask}
-              handleEdited={handleTaskEdit}
+              handleEdited={() => {}}
               iconMap={iconMap}
+              setSelectedTask={setSelectedTask}
             />
           </CommonCard>
         )}
